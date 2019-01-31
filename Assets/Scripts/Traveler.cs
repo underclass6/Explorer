@@ -24,11 +24,12 @@ public class Traveler : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         Moving();
+        Shooting();
 	}
 
     void LateUpdate()
     {
-        if (!Input.anyKey)
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Idle") || animator.GetCurrentAnimatorStateInfo(0).IsTag("nothing"))
             spr.sprite = sprites[directIndex];
     }
 
@@ -62,6 +63,16 @@ public class Traveler : MonoBehaviour {
         transform.position = currentPos;
     }
 
+    private void Shooting()
+    {
+        animator.SetBool("isShooting", false);
+        if (Input.GetKey(KeyCode.J))
+        {
+            animator.SetBool("isShooting", true);
+            animator.SetInteger("shoot", directIndex + 1);
+        }
+    }
+    
     private void setAnim()
     {
         if(Input.GetKeyDown(KeyCode.W))
